@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Silicon Maze: Echoes of the Web</title>
+  <meta name="description" content="A physics-driven open-world web-slinger. Swing, build momentum, move the world and wake the Aether Core.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="stage">
+    <canvas id="game" width="1280" height="720" aria-label="Game view"></canvas>
+
+    <!-- In-game HUD -->
+    <div id="hud" aria-hidden="true">
+      <div class="hud-top">
+        <div class="pill" id="hud-zonebox">Zone: <span id="hud-zone">—</span></div>
+        <div class="pill">Fragments <span id="hud-frag">0/3</span></div>
+        <div class="pill">Shards <span id="hud-shard">0/6</span></div>
+      </div>
+      <div id="hud-quests"></div>
+      <div id="hud-banner"></div>
+      <div id="toasts"></div>
+      <div id="hud-hint"></div>
+    </div>
+
+    <!-- Dialogue box -->
+    <div id="dialogue"></div>
+
+    <!-- Menu / screen overlay -->
+    <div id="overlay"></div>
+  </div>
+
+  <noscript><p style="color:#fff;text-align:center;padding:2rem">This game needs JavaScript enabled.</p></noscript>
+
+  <script src="js/utils.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    window.addEventListener('load', function () { window.EOTW.Game.init(); });
+  </script>
+</body>
+</html>

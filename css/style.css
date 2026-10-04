@@ -1,0 +1,176 @@
+/* Silicon Maze: Echoes of the Web — UI styling.
+   Colours are defined as tokens so the high-contrast class can override them. */
+:root {
+  --ui-scale: 1;
+  --bg: #05060d;
+  --ink: #eaf0ff;
+  --muted: #9fb0d0;
+  --accent: #7CFFB2;
+  --accent2: #8CF0FF;
+  --danger: #ff6b6b;
+  --panel: rgba(16, 22, 40, 0.92);
+  --panel-br: rgba(140, 170, 255, 0.25);
+}
+body.high-contrast {
+  --bg: #000;
+  --ink: #ffffff;
+  --muted: #e8e8e8;
+  --accent: #00ff9c;
+  --accent2: #66e0ff;
+  --panel: #000;
+  --panel-br: #ffffff;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; height: 100%; background: var(--bg); color: var(--ink);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  overflow: hidden; -webkit-font-smoothing: antialiased;
+}
+#stage {
+  position: fixed; inset: 0; display: grid; place-items: center;
+  background: radial-gradient(120% 120% at 50% 0%, #0b1024 0%, #05060d 70%);
+}
+#game {
+  width: min(100vw, calc(100vh * 16 / 9));
+  height: min(100vh, calc(100vw * 9 / 16));
+  background: #05060d; display: block; image-rendering: auto;
+  touch-action: none;
+}
+
+/* ---------- HUD ---------- */
+#hud {
+  position: absolute; inset: 0; pointer-events: none;
+  font-size: calc(15px * var(--ui-scale));
+  opacity: 0; transition: opacity .25s;
+}
+#hud.show { opacity: 1; }
+.hud-top { position: absolute; top: 14px; left: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+.pill {
+  background: rgba(10, 16, 32, 0.72); border: 1px solid var(--panel-br);
+  padding: 6px 12px; border-radius: 999px; color: var(--muted); font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+.pill span { color: var(--ink); }
+#hud-zonebox span { color: var(--accent2); }
+#hud-quests {
+  position: absolute; top: 14px; right: 14px; display: flex; flex-direction: column;
+  gap: 5px; align-items: flex-end;
+}
+.tq {
+  background: rgba(10, 16, 32, 0.7); border: 1px solid var(--panel-br);
+  padding: 4px 11px; border-radius: 8px; color: var(--muted); font-weight: 600;
+  font-size: calc(13px * var(--ui-scale));
+}
+.tq span { color: var(--muted); margin-right: 6px; }
+.tq.done { color: var(--accent); text-decoration: line-through; opacity: .8; }
+.tq.done span { color: var(--accent); }
+.tq.core { color: #ffd36b; border-color: #ffd36b66; }
+#hud-banner {
+  position: absolute; top: 64px; left: 50%; transform: translateX(-50%);
+  color: #ffd36b; font-weight: 800; letter-spacing: 2px; font-size: calc(20px * var(--ui-scale));
+  text-shadow: 0 0 12px #ffd36b88; opacity: 0; transition: opacity .2s;
+}
+#hud-banner.show { opacity: 1; animation: pulse 1.2s infinite; }
+@keyframes pulse { 50% { opacity: .55; } }
+body.reduced-motion #hud-banner.show { animation: none; }
+#toasts {
+  position: absolute; left: 50%; bottom: 76px; transform: translateX(-50%);
+  display: flex; flex-direction: column; gap: 6px; align-items: center; width: 90%;
+}
+.toast {
+  background: rgba(8, 12, 26, 0.82); border: 1px solid var(--panel-br);
+  padding: 7px 16px; border-radius: 10px; font-weight: 700; text-align: center;
+  font-size: calc(15px * var(--ui-scale)); max-width: 640px;
+}
+#hud-hint {
+  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+  color: var(--muted); font-size: calc(12px * var(--ui-scale)); text-align: center;
+  background: rgba(8, 12, 26, 0.55); padding: 4px 12px; border-radius: 999px;
+  max-width: 94%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ---------- Overlay panels ---------- */
+#overlay {
+  position: absolute; inset: 0; display: none; place-items: center;
+  background: rgba(3, 5, 12, 0.78); backdrop-filter: blur(6px); z-index: 20;
+  padding: 20px; overflow: auto;
+}
+#overlay.show { display: grid; }
+.panel {
+  background: var(--panel); border: 1px solid var(--panel-br); border-radius: 18px;
+  padding: 28px 30px; max-width: 540px; width: 100%; text-align: center;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .6); font-size: calc(15px * var(--ui-scale));
+}
+.panel.wide { max-width: 680px; text-align: left; }
+.panel h1 { margin: 0 0 4px; font-size: calc(34px * var(--ui-scale)); letter-spacing: 3px; color: var(--accent2); }
+.panel h2 { margin: 0 0 14px; font-size: calc(24px * var(--ui-scale)); color: var(--ink); }
+.panel h3 { margin: 18px 0 8px; color: var(--muted); font-size: calc(15px * var(--ui-scale)); }
+.title-panel h2 { color: var(--accent); letter-spacing: 2px; margin-top: -6px; }
+.tagline { color: var(--accent2); font-style: italic; }
+.fineprint, .tip { color: var(--muted); font-size: calc(13px * var(--ui-scale)); }
+.howto ul { text-align: left; line-height: 1.8; padding-left: 18px; }
+.howto p { line-height: 1.6; }
+.intro .intro-line { line-height: 1.6; margin: 10px 0; color: var(--muted); }
+.intro .intro-line.big { font-size: calc(22px * var(--ui-scale)); color: var(--accent2); font-weight: 800; letter-spacing: 1px; }
+
+.btnrow { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+.btnrow.col { flex-direction: column; }
+button {
+  font: inherit; font-weight: 700; cursor: pointer; color: var(--ink);
+  background: rgba(40, 54, 92, 0.7); border: 1px solid var(--panel-br);
+  padding: 11px 20px; border-radius: 11px; transition: transform .08s, background .15s;
+}
+button:hover { background: rgba(60, 80, 130, 0.9); }
+button:active { transform: translateY(1px); }
+button:focus-visible { outline: 3px solid var(--accent2); outline-offset: 2px; }
+button.primary { background: var(--accent); color: #042016; border-color: transparent; }
+button.primary:hover { filter: brightness(1.08); }
+button.danger { background: transparent; color: var(--danger); border-color: var(--danger); }
+
+/* Journal */
+.stat { color: var(--muted); margin-bottom: 8px; }
+.stat b, .final b { color: var(--accent2); }
+.final { background: rgba(255, 211, 107, .08); border: 1px solid #ffd36b44; padding: 8px 12px; border-radius: 10px; margin-bottom: 14px; }
+.quests { display: flex; flex-direction: column; gap: 10px; }
+.q { display: flex; gap: 12px; background: rgba(8, 12, 26, .5); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--panel-br); }
+.q .tick { font-size: 20px; color: var(--muted); }
+.q.done .tick { color: var(--accent); }
+.qt { font-weight: 800; }
+.qt em { color: var(--muted); font-weight: 500; }
+.qo { color: var(--ink); margin: 2px 0; }
+.qp { color: var(--muted); font-size: calc(12px * var(--ui-scale)); }
+
+/* Settings */
+.settings { display: flex; flex-direction: column; gap: 4px; }
+.srow { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 8px 0; border-bottom: 1px solid rgba(140, 170, 255, .12); }
+.srow span { color: var(--muted); }
+.srow input[type=range] { width: 220px; accent-color: var(--accent); }
+.srow input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--accent); }
+.binds { width: 100%; border-collapse: collapse; }
+.binds td { padding: 5px 8px; border-bottom: 1px solid rgba(140, 170, 255, .1); color: var(--muted); }
+.binds td:last-child { text-align: right; }
+.rebind { padding: 5px 12px; font-size: calc(13px * var(--ui-scale)); min-width: 110px; }
+
+/* Dialogue */
+#dialogue {
+  position: absolute; left: 50%; bottom: 60px; transform: translateX(-50%);
+  width: min(720px, 92%); background: var(--panel); border: 1px solid var(--panel-br);
+  border-radius: 14px; padding: 16px 20px; display: none; z-index: 18;
+  font-size: calc(15px * var(--ui-scale)); box-shadow: 0 16px 50px rgba(0, 0, 0, .55);
+}
+#dialogue.show { display: block; }
+.dname { color: var(--accent2); font-weight: 800; margin-bottom: 6px; }
+.dline { line-height: 1.5; margin-bottom: 12px; }
+#dialogue button { background: var(--accent); color: #042016; border: none; }
+.dhint { color: var(--muted); font-size: calc(12px * var(--ui-scale)); margin-top: 8px; }
+
+.ending h1 { animation: glow 2s ease-in-out infinite; }
+@keyframes glow { 50% { text-shadow: 0 0 30px var(--accent2); } }
+body.reduced-motion .ending h1 { animation: none; }
+
+@media (max-width: 560px) {
+  .panel { padding: 20px 18px; }
+  .srow input[type=range] { width: 130px; }
+  #hud-hint { font-size: 10px; }
+}
